@@ -3,7 +3,8 @@
 # Jetbrains Ignore files #
 ##########################
 *.iml
-/.idea
+*/.idea/
+.idea/
 /out
 
 #####################
