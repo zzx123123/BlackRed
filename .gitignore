@@ -1,4 +1,12 @@
-.idea
+
+##########################
+# Jetbrains Ignore files #
+##########################
 *.iml
-/target
-out
+/.idea
+/out
+
+#####################
+# Java Ignore files #
+#####################
+*.class
