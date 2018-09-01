@@ -48,47 +48,15 @@ public class RBTree<K extends Comparable<K>, V> {
     //     / \              /   \
     //    T2 T3            T1   T2
     private Node leftRotate(Node node){
-
         Node x = node.right;
-
-        //左旋转
+        String s = "红黑树";
+        //左旋转    红黑树
         node.right = x.left;
         x.left = node;
-
         //维持颜色
         x.color = node.color;
         node.color = RED;
-
         return x;
-    }
-
-    //     node                   x
-    //    /   \     右旋转       /  \
-    //   x    T2   ------->   y   node
-    //  / \                       /  \
-    // y  T1                     T1  T2
-    private Node rightRotate(Node node){
-
-        Node x = node.left;
-
-        // 右旋转
-        node.left = x.right;
-        x.right = node;
-        
-        // 维持颜色
-        x.color = node.color;
-        node.color = RED;
-
-        return x;
-    }
-
-    // 三结点时颜色翻转
-    private void flipColors(Node node) {
-
-        // 逻辑在调用时候判断
-        node.color = RED;
-        node.left.color = BLACK;
-        node.right.color = BLACK;
     }
 
     // 向以node为根的红黑树中插入元素(key, value)，递归算法
