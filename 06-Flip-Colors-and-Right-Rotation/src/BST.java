@@ -1,29 +1,24 @@
 import java.util.ArrayList;
 
-public class RBTree<K extends Comparable<K>, V> {
-
-    private static boolean RED = true;
-    private static boolean BLACK = false;
+public class BST<K extends Comparable<K>, V> {
 
     private class Node{
         public K key;
         public V value;
         public Node left, right;
-        public boolean color;
 
         public Node(K key, V value){
             this.key = key;
             this.value = value;
             left = null;
             right = null;
-            color = RED;
         }
     }
 
     private Node root;
     private int size;
 
-    public RBTree(){
+    public BST(){
         root = null;
         size = 0;
     }
@@ -36,65 +31,16 @@ public class RBTree<K extends Comparable<K>, V> {
         return size == 0;
     }
 
-    // 向红黑树中添加新的元素(key, value)
+    // 向二分搜索树中添加新的元素(key, value)
     public void add(K key, V value){
         root = add(root, key, value);
-        root.color = BLACK;//设置最终根节点为黑色
     }
 
-    //   node                     x
-    //  /   \     左旋转         /  \
-    // T1   x   --------->   node   T3
-    //     / \              /   \
-    //    T2 T3            T1   T2
-    private Node leftRotate(Node node){
+    // 向以node为根的二分搜索树中插入元素(key, value)，递归算法
+    // 返回插入新节点后二分搜索树的根
+    private Node add(Node node, K key, V value){
 
-        Node x = node.right;
-
-        //左旋转
-        node.right = x.left;
-        x.left = node;
-
-        //维持颜色
-        x.color = node.color;
-        node.color = RED;
-
-        return x;
-    }
-
-    //     node                   x
-    //    /   \     右旋转       /  \
-    //   x    T2   ------->   y   node
-    //  / \                       /  \
-    // y  T1                     T1  T2
-    private Node rightRotate(Node node){
-
-        Node x = node.left;
-
-        // 右旋转
-        node.left = x.right;
-        x.right = node;
-        
-        // 维持颜色
-        x.color = node.color;
-        node.color = RED;
-
-        return x;
-    }
-
-    // 三结点时颜色翻转
-    private void flipColors(Node node) {
-
-        // 逻辑在调用时候判断
-        node.color = RED;
-        node.left.color = BLACK;
-        node.right.color = BLACK;
-    }
-
-    // 向以node为根的红黑树中插入元素(key, value)，递归算法
-    // 返回插入新节点后红黑树的根
-    private Node add(Node node, K key, V value) {
-        if(node == null) {
+        if(node == null){
             size ++;
             return new Node(key, value);
         }
@@ -109,7 +55,7 @@ public class RBTree<K extends Comparable<K>, V> {
         return node;
     }
 
-    // 返回以node为根节点的红黑树中，key所在的节点
+    // 返回以node为根节点的二分搜索树中，key所在的节点
     private Node getNode(Node node, K key){
 
         if(node == null)
@@ -137,6 +83,7 @@ public class RBTree<K extends Comparable<K>, V> {
         Node node = getNode(root, key);
         if(node == null)
             throw new IllegalArgumentException(key + " doesn't exist!");
+
         node.value = newValue;
     }
 
@@ -150,6 +97,7 @@ public class RBTree<K extends Comparable<K>, V> {
     // 删除掉以node为根的二分搜索树中的最小节点
     // 返回删除节点后新的二分搜索树的根
     private Node removeMin(Node node){
+
         if(node.left == null){
             Node rightNode = node.right;
             node.right = null;
@@ -225,7 +173,7 @@ public class RBTree<K extends Comparable<K>, V> {
         if(FileOperation.readFile("pride-and-prejudice.txt", words)) {
             System.out.println("Total words: " + words.size());
 
-            RBTree<String, Integer> map = new RBTree<>();
+            BST<String, Integer> map = new BST<>();
             for (String word : words) {
                 if (map.contains(word))
                     map.set(word, map.get(word) + 1);
